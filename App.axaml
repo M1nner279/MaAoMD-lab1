@@ -2,8 +2,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="lab1.App"
              xmlns:local="using:lab1"
+             xmlns:models="clr-namespace:lab1.Models"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+             
+    <Application.Resources>
+        <models:ClusterToColorConverter x:Key="ClusterToColorConverter"/>
+        <models:CentroidOffsetConverter x:Key="CentroidOffsetConverter"/>
+    </Application.Resources>
 
     <Application.DataTemplates>
         <local:ViewLocator/>
