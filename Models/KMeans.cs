@@ -19,7 +19,7 @@ public class KMeans
         _random = new Random();
     }
 
-    private void InitializeCentroids()
+    public void InitializeCentroids()
     {
         _centroids.Clear();
         var indices = Enumerable.Range(0, _points.Count).OrderBy(x => _random.Next()).Take(_k).ToList();
@@ -30,7 +30,7 @@ public class KMeans
         }
     }
 
-    public bool AssingClusters()
+    public bool AssignClusters()
     {
         bool changed = false;
         foreach (var point in _points)
@@ -58,7 +58,7 @@ public class KMeans
         return changed;
     }
 
-    public bool UpdateCentorids()
+    public bool UpdateCentroids()
     {
         bool moved = false;
         var newCentroids = new List<Point>();

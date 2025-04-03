@@ -3,16 +3,32 @@
         xmlns:vm="using:lab1.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="clr-namespace:lab1.Models"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="lab1.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="Алгоритм K-средних">
+        Title="Алгоритм K-средних"
+        Width="600" Height="500">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="Pretty " HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
+        <!-- Канвас для ручной отрисовки -->
+        <Canvas Grid.Row="0" Background="White" x:Name="DrawingCanvas"/>
+
+        <!-- Панель управления -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <!-- <Button Content="Initialize" Click="OnInitializeClick" Margin="5"/> -->
+            <!-- <Button Content="Next Step" Click="OnStepClick" Margin="5"/> -->
+        </StackPanel>
+    </Grid>
+    
 </Window>

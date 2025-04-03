@@ -8,11 +8,16 @@ public class Point
     public double Y { get; set; }
     public int Cluster { get; set; }
 
+    public int GetX { get; set; }
+    public int GetY { get; set; }
+
     public Point(double x, double y)
     {
         X = x;
         Y = y;
         Cluster = -1;
+        GetX = (int)x;
+        GetY = (int)y;
     }
 
     public double DistanceTo(Point dst)
