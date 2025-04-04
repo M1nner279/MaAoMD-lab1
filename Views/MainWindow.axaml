@@ -16,17 +16,36 @@
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        
+        <StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Число объектов: " VerticalAlignment="Center"/>
+                <TextBlock x:Name="PointsCountText" Text="1000" Width="60" VerticalAlignment="Center"/>
+                <Slider x:Name="PointsSlider" Minimum="1000" Maximum="100000" Value="1000" Width="200" 
+                        ValueChanged="OnPointsSliderValueChanged"/>
+            </StackPanel>
+
+            <!-- Слайдер для числа классов -->
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Число классов: " VerticalAlignment="Center"/>
+                <TextBlock x:Name="ClustersCountText" Text="2" Width="60" VerticalAlignment="Center"/>
+                <Slider x:Name="ClustersSlider" Minimum="2" Maximum="20" Value="2" Width="200" 
+                        ValueChanged="OnClustersSliderValueChanged"/>
+            </StackPanel>
+        </StackPanel>
 
         <!-- Канвас для ручной отрисовки -->
-        <Canvas Grid.Row="0" Background="White" x:Name="DrawingCanvas"/>
+        <Canvas Grid.Row="1" Background="White" x:Name="DrawingCanvas"/>
 
         <!-- Панель управления -->
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-            <Button Content="Initialize" Click="OnInitializeClick" Margin="5"/>
-            <Button Content="Next Step" Click="OnStepClick" Margin="5"/>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <Button Content="Инициализировать" Click="OnInitializeClick" Margin="5"/>
+            <Button Content="Следующий шаг" Click="OnStepClick" Margin="5"/>
+            <Button Content="Запуск до конца" Click="OnRunToCompletionClick" Margin="5"/>
         </StackPanel>
     </Grid>
     

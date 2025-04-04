@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
@@ -11,13 +12,17 @@ public partial class MainWindow : Window
 {
     private readonly Canvas _canvas;
     private KMeans _kMeans;
-    private readonly int _numPoints = 2000; // get from User
-    private readonly int _k = 6; // get from User
+    private readonly TextBlock _pointsCountText;
+    private readonly TextBlock _clustersCountText;
+    private int _numPoints = 1000; // get from User
+    private int _k = 2; // get from User
 
     public MainWindow()
     {
         InitializeComponent();
         _canvas = this.FindControl<Canvas>("DrawingCanvas");
+        _pointsCountText = this.FindControl<TextBlock>("PointsCountText");
+        _clustersCountText = this.FindControl<TextBlock>("ClustersCountText");
     }
 
     private void OnInitializeClick(object sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -27,7 +32,7 @@ public partial class MainWindow : Window
         var points = new List<Point>();
         for (int i = 0; i < _numPoints; i++)
         {
-            points.Add(new Point(random.NextDouble() * 400, random.NextDouble() * 400));
+            points.Add(new Point(random.NextDouble() * _canvas.Bounds.Width, random.NextDouble() * _canvas.Bounds.Height));
         }
 
         // Инициализация KMeans
@@ -55,7 +60,47 @@ public partial class MainWindow : Window
             Console.WriteLine("Алгоритм завершён.");
         }
     }
+    
+    private async void OnRunToCompletionClick(object sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (_kMeans == null)
+        {
+            Console.WriteLine("KMeans not initialized. Press Initialize first.");
+            return;
+        }
 
+        // Выполнение алгоритма до сходимости с отрисовкой каждого шага
+        int iteration = 0;
+        bool changed, moved;
+        do
+        {
+            changed = _kMeans.AssignClusters();
+            moved = _kMeans.UpdateCentroids();
+            iteration++;
+
+            // Перерисовка канваса после каждого шага
+            DrawCanvas();
+
+            // Задержка для визуализации (например, 100 мс)
+            await Task.Delay(100);
+
+        } while (changed || moved);
+
+        Console.WriteLine($"Алгоритм завершён после {iteration} итераций.");
+    }
+
+    private void OnPointsSliderValueChanged(object sender, Avalonia.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+    {
+        _numPoints = (int)e.NewValue;
+        _pointsCountText.Text = _numPoints.ToString();
+    }
+
+    private void OnClustersSliderValueChanged(object sender, Avalonia.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+    {
+        _k = (int)e.NewValue;
+        _clustersCountText.Text = _k.ToString();
+    }
+    
     private void DrawCanvas()
     {
         if (_kMeans == null) return;
@@ -69,7 +114,10 @@ public partial class MainWindow : Window
         // Цвета для кластеров
         var clusterColors = new[]
         {
-            Brushes.Blue, Brushes.Green, Brushes.Purple, Brushes.Orange, Brushes.Cyan, Brushes.Magenta, Brushes.Yellow
+            Brushes.Blue, Brushes.Green, Brushes.Purple, Brushes.Orange, Brushes.Cyan,
+            Brushes.Magenta, Brushes.Yellow, Brushes.Brown, Brushes.Lime, Brushes.Pink,
+            Brushes.Teal, Brushes.Indigo, Brushes.Violet, Brushes.Gold, Brushes.Silver,
+            Brushes.Coral, Brushes.Turquoise, Brushes.Olive, Brushes.Salmon, Brushes.SkyBlue
         };
 
         // Отрисовка точек
